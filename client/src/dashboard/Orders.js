@@ -81,7 +81,7 @@ useEffect(() => {
 
 
 var callApi3 = async() => {
-  const response = await axios.get("http://localhost:3001/getblock")
+  const response = await axios.get("http://localhost:3001/getaddress")
   setAddresses(response.data)
 }
   
