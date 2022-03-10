@@ -16,7 +16,7 @@ dotenv.config();
 const USER = process.env.RPC_USER;
 const PASS = process.env.RPC_PASSWORD;
 const PORT = 9776;
-const ACCOUNT = "wsj";
+const ACCOUNT = "jaewonee";
 const ID_STRING = "kigacoin_id";
 const headers = {
     "content-type": "text/plain;"
@@ -25,7 +25,7 @@ const headers = {
 app.use("/", rpcMethods);
 
 app.get("/", (req, res) => {
-    res.send("hello")
+    res.send("hello server")
 })
 
 app.listen(3001, function(){
