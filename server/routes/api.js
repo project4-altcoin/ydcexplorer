@@ -26,8 +26,7 @@ router.get("/getblockcount", (req, res) => {
     callback = (error, response, body) => {
         if(!error && response.statusCode == 200){
             const data = JSON.parse(body);
-            res.send(data);
-            console.log("======")
+            res.send(JSON.stringify(data.result));
         }
     };
 

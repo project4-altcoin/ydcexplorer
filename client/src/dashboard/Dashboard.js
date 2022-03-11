@@ -19,7 +19,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
-import Deposits from './Deposits';
+import Blockheight from './Blockheight';
 import Orders from './Orders';
 
 function Copyright(props) {
@@ -162,7 +162,7 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Recent Deposits */}
+              {/* Blockheight */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper
                   sx={{
@@ -172,7 +172,7 @@ function DashboardContent() {
                     height: 240,
                   }}
                 >
-                  <Deposits />
+                  <Blockheight />
                 </Paper>
               </Grid>
               {/* Chart */}
