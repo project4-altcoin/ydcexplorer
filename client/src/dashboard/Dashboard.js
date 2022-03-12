@@ -18,10 +18,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
+import Title from './Title';
 import Chart from './Chart';
 import Blockheight from './Blockheight';
 import Orders from './Orders';
-
+import Blockpertxs from './performance/Blockpertxs';
+import Avgblocktime1hour from "./performance/Avgblocktime1hour"
+import Avgblocktime24hour from "./performance/Avgblocktime24hour"
+import Consensusnode from "./performance/Consensusnode"
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -188,7 +192,35 @@ function DashboardContent() {
                   <Chart />
                 </Paper>
               </Grid>
-              {/* Recent Orders */}
+              {/* Performance */}
+              <Grid item xs={12} md={12} lg={12}>
+              
+                <Paper sx={{ p: 3, display: 'flex', flexDirection: 'row' }}>   
+                <Title>Network Performance</Title>           
+                <Grid item xs={3} md={3} lg={3}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', textalign:"center" }}>
+                  <Consensusnode />
+                </Paper>
+              </Grid>
+                <Grid item xs={3} md={3} lg={3}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  <Avgblocktime1hour />
+                </Paper>
+              </Grid>
+                <Grid item xs={3} md={3} lg={3}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  <Avgblocktime24hour />
+                </Paper>
+              </Grid>
+                <Grid item xs={3} md={3} lg={3}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  <Blockpertxs />
+                </Paper>
+              </Grid>
+                </Paper>
+              </Grid>
+
+              
               <Grid item xs={12} md={12} lg={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   <Orders />
