@@ -1,6 +1,4 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import Title from '../Title';
 import styled from "styled-components"
 
 

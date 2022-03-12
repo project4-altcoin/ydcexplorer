@@ -153,7 +153,7 @@ router.get("/getaddress", (req, res) => {
 
 //=============================
 
-for(let i = 0; i < 10000; i++) {
+for(let i = 0; i < 30000; i++) {
     router.get(`/getblock${i}`, (req, res) => {  
             var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
             var options = {
