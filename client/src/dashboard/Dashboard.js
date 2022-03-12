@@ -21,7 +21,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Blockheight from './Blockheight';
 import Orders from './Orders';
-
+import Performance from './Performance.';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -172,7 +172,8 @@ function DashboardContent() {
                     height: 240,
                   }}
                 >
-                  <Blockheight />
+                  {/* <Blockheight /> */}
+                  <Performance />
                 </Paper>
               </Grid>
               {/* Chart */}

@@ -16,7 +16,7 @@ dotenv.config();
 const USER = process.env.RPC_USER;
 const PASS = process.env.RPC_PASSWORD;
 const PORT = 9776;
-const ACCOUNT = "jaewonee";
+const ACCOUNT = "kbpark";
 const ID_STRING = "kigacoin_id";
 const headers = {
     "content-type": "text/plain;"
