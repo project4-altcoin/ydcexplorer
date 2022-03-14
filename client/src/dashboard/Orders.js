@@ -60,11 +60,12 @@ export default function Orders() {
   const [blockHash, setBlockHash] = useState([]);
   const [addresses, setAddresses] = useState([]);
 
+
   var callApi1 = async() => {
-   const response = await axios.get("http://localhost:3001/getblockcount")
-   setBlockCount(response.data.result)
+   const response = await axios.get("http://localhost:3001/blockcount")
+   setBlockCount(response.data)
  }
-   
+ 
  useEffect(() => {
    callApi1();
  },[]);
@@ -74,7 +75,7 @@ export default function Orders() {
   const response = await axios.get("http://localhost:3001/getbestblockhash")
   setBlockHash(response.data.result)
 }
-  
+
 useEffect(() => {
   callApi2();
 },[]);
@@ -84,7 +85,7 @@ var callApi3 = async() => {
   const response = await axios.get("http://localhost:3001/getaddress")
   setAddresses(response.data)
 }
-  
+
 useEffect(() => {
   callApi3();
 },[]);
@@ -106,7 +107,21 @@ useEffect(() => {
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell>{blockCount}</TableCell>
+            <TableCell>{blockCount[0]}</TableCell>
+            <TableCell>{blockHash}</TableCell>
+            <TableCell>{addresses}</TableCell>
+            <TableCell>test4</TableCell>
+            <TableCell>test5</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>{blockCount[1]}</TableCell>
+            <TableCell>{blockHash}</TableCell>
+            <TableCell>{addresses}</TableCell>
+            <TableCell>test4</TableCell>
+            <TableCell>test5</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>{blockCount[2]}</TableCell>
             <TableCell>{blockHash}</TableCell>
             <TableCell>{addresses}</TableCell>
             <TableCell>test4</TableCell>

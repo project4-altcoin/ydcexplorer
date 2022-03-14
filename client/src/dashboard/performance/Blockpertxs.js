@@ -32,7 +32,7 @@ export default function Blockpertxs() {
       .then(axios.spread((res1) => {
       const txs1 = res1.data
       const res = [txs1];
-        
+     
       for(let j = 0; j < res.length; j++) {
        
         sum += res[j]
