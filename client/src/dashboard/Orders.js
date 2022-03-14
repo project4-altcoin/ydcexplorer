@@ -60,6 +60,26 @@ export default function Orders() {
   const [blockHash, setBlockHash] = useState([]);
   const [addresses, setAddresses] = useState([]);
 
+  // const [test, setTest] = useState(0)
+  
+  // var testApi = async() => {
+  //   const response = await axios.get("http://localhost:3001/getblockcount")
+  //   let count = response.data
+    
+  //   for(let i = count - 10; i < count; i++) {
+  //     axios.all([await axios.get(`http://localhost:3001/getblocka${i}`)])
+  //     .then(axios.spread((res1) => {
+  //     const txs1 = res1.data
+  //     const res = [txs1];
+             
+  //       setTest(res);
+    
+  //   }))          
+  //   }
+  // }  
+  // useEffect(() => {
+  //   (testApi());
+  // },[]);
 
   var callApi1 = async() => {
    const response = await axios.get("http://localhost:3001/blockcount")
@@ -110,7 +130,7 @@ useEffect(() => {
             <TableCell>{blockCount[0]}</TableCell>
             <TableCell>{blockHash}</TableCell>
             <TableCell>{addresses}</TableCell>
-            <TableCell>test4</TableCell>
+            <TableCell>test</TableCell>
             <TableCell>test5</TableCell>
           </TableRow>
           <TableRow>
