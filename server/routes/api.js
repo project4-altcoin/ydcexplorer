@@ -255,40 +255,89 @@ router.get("/test2", (req, res) => {
 
 //=============================
 
-for(let i = 0; i < 30000; i++) {
-    router.get(`/getblock${i}`, (req, res) => {  
-            var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
-            var options = {
-                url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
-                method:"POST",
-                headers: headers,
-                body: dataString
-            };
-            callback = async(error, response, body) => {
-                if(!error && response.statusCode == 200){
-                    const data = JSON.parse(body);
-                    const datas = JSON.stringify(data.result)
+// for(let i = 0; i < 30000; i++) {
+//     router.get(`/getblock${i}`, (req, res) => {  
+//             var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
+//             var options = {
+//                 url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+//                 method:"POST",
+//                 headers: headers,
+//                 body: dataString
+//             };
+//             callback = async(error, response, body) => {
+//                 if(!error && response.statusCode == 200){
+//                     const data = JSON.parse(body);
+//                     const datas = JSON.stringify(data.result)
                     
-                     //console.log(datas)
+//                      //console.log(datas)
     
-                    var dataString = `{"jsonrpc":"1.0","method":"getblock", "params":[${datas}]}`
-                    var options2 = {
-                        url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
-                        method:"POST",
-                        headers: headers,
-                        body: dataString
-                    };
-                    callback2 = async(error, response, body) => {
-                        if(!error && response.statusCode == 200){
-                            const data = JSON.parse(body);  
-                            const datas = JSON.stringify(data.result.tx.length)                     
-                            res.send(datas)                            
-                        }
+//                     var dataString = `{"jsonrpc":"1.0","method":"getblock", "params":[${datas}]}`
+//                     var options2 = {
+//                         url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+//                         method:"POST",
+//                         headers: headers,
+//                         body: dataString
+//                     };
+//                     callback2 = async(error, response, body) => {
+//                         if(!error && response.statusCode == 200){
+//                             const data = JSON.parse(body);  
+//                             const datas = JSON.stringify(data.result.tx.length)                     
+//                             res.send(datas)                            
+//                         }
+
+//                         console.log("blockHeight : ", blockHeight);
+//                         console.log("blockTime : ", blockTime);
+//                         console.log("blockRealtime : ", Unix_timestamp(blockTime));
+//                         console.log("txArray : ", txArray);
+//                         console.log("txNum : ", txNum);
+//                     }
+//                 }
+//                 request(options, callback2);
+//             }  
+//         };
+//         request(options, callback);
+//     };
+// });
+//=============================
+
+router.get("/test4", (req, res) => {  
+    var alldata = ""
+    for(let i =0; i< 9; i++) {         
+        
+        var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
+        var options = {
+            url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+            method:"POST",
+            headers: headers,
+            body: dataString
+        };
+        callback = async(error, response, body) => {
+            if(!error && response.statusCode == 200){
+                const data = JSON.parse(body);
+                const datas = JSON.stringify(data.result)
+                
+                // console.log(datas)
+
+                var dataString = `{"jsonrpc":"1.0","method":"getblock", "params":[${datas}]}`
+                var options = {
+                    url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+                    method:"POST",
+                    headers: headers,
+                    body: dataString
+                };
+                callback2 = async(error, response, body) => {
+                    if(!error && response.statusCode == 200){
+                        const data = JSON.parse(body);
+                        const datas = JSON.stringify(data.result)
+                        
+                        console.log(datas)
                     }
-                    request(options2, callback2);
-                }  
-            };
-            request(options, callback);
-        })
-    };
+                }
+                request(options, callback2);
+            }  
+        };
+        request(options, callback);
+    }
+});
+
 module.exports = router;
