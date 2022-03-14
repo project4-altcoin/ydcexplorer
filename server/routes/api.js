@@ -169,7 +169,7 @@ router.get("/blockcount", (req, res) => {
             var data1 = JSON.stringify(datas - i)
             blockcount.push(data1)
             }
-
+            
             //const array = JSON.stringify(blockcount)
             //console.log(blockcount)
             //console.log(typeof(blockcount))
@@ -180,7 +180,8 @@ router.get("/blockcount", (req, res) => {
     request(options, callback);
 });
 
-router.get("/test", (req, res) => {
+for( var i=1; i<10; i++){
+router.get(`/test${i}`, (req, res) => {
     var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"gettxoutsetinfo", "params":[]}`
     var options = {
         url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
@@ -191,67 +192,75 @@ router.get("/test", (req, res) => {
 
     callback = (error, response, body) => {
         if(!error && response.statusCode == 200){
-            var blockcount = []
-            for( var i=0; i<10; i++){
+            //var blockcount = []
+            //for( var j=0; j<10; j++){
             const data = JSON.parse(body)
             const datas = JSON.stringify(data.result.height)
             var data1 = JSON.stringify(datas - i)
-            blockcount.push(data1)
+           // blockcount.push(data1)
+            console.log(data1)
+            res.send(data1)
+            
+
+            // // for( var i=0; i<10; i++){
+            //         var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${data1}]}`
+            //         //var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[6055]}`
+            //         var options2 = {
+            //             url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+            //             method:"POST",
+            //             headers: headers,
+            //             body: dataString
+            //         };
+            //         console.log(options2)
+
+            //         callback2 = async(error, response, body) => {
+            //             if(!error && response.statusCode == 200){
+            //                 var test = []
+            //                 const data = JSON.parse(body);  
+            //                 const datas = JSON.stringify(data.result)
+            //                 test.push(datas)
+            //                 //const datas = JSON.stringify(data.result.tx.length)   
+            //                 //console.log(blockcount[i])
+            //                 console.log(test)                  
+            //                 res.send(datas)                            
+            //             }
+            //         }
+            //     //}
+            //     request(options2, callback2);
+            //     //===
+            // // console.log(blockcount)
+            // // res.send(blockcount)
+        }
+    };
+    request(options, callback);
+});
+}
+
+//====
+for( var i=0; i<100; i++){
+    router.get(`/jebal${i}`, (req, res) => {
+        var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblockhash", "params":[${i}]}`
+        var options = {
+            url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+            method:"POST",
+            headers: headers,
+            body: dataString
+        };
+    
+        callback = (error, response, body) => {
+            if(!error && response.statusCode == 200){
+                const data = JSON.parse(body)
+                const datas = JSON.stringify(data.result)
+                console.log(i)
+                console.log(data)
+                console.log(datas)
+                res.send(datas)
             }
+        };
+        request(options, callback);
+    });
+    }
 
-            for( var i=0; i<10; i++){
-                    var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${blockcount[i]}]}`
-                    //var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[6055]}`
-                    var options2 = {
-                        url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
-                        method:"POST",
-                        headers: headers,
-                        body: dataString
-                    };
-                    console.log(options2)
-
-                    callback2 = async(error, response, body) => {
-                        if(!error && response.statusCode == 200){
-                            var test = []
-                            const data = JSON.parse(body);  
-                            const datas = JSON.stringify(data.result)
-                            test.push(datas)
-                            //const datas = JSON.stringify(data.result.tx.length)   
-                            //console.log(blockcount[i])
-                            console.log(datas)                  
-                            res.send(datas)                            
-                        }
-                    }
-                }
-                request(options2, callback2);
-                //===
-            // console.log(blockcount)
-            // res.send(blockcount)
-        }
-    };
-    request(options, callback);
-});
-
-router.get("/test2", (req, res) => {
-    var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"gettxoutsetinfo", "params":[]}`
-    var options = {
-        url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
-        method:"POST",
-        headers: headers,
-        body: dataString
-    };
-
-    callback = (error, response, body) => {
-        if(!error && response.statusCode == 200){
-            const data = JSON.parse(body);
-            const datas = JSON.stringify(data.result.height)
-            res.send(datas);
-            console.log(typeof(datas))
-        }
-    };
-
-    request(options, callback);
-});
 
 //=============================
 
@@ -300,10 +309,11 @@ router.get("/test2", (req, res) => {
 // });
 //=============================
 
-router.get("/test4", (req, res) => {  
+//=============================
+// transaction history
+router.get("/txhistory", (req, res) => {  
     var alldata = ""
-    for(let i =0; i< 9; i++) {         
-        
+    for(let i = 0; i < 14; i++) {         
         var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
         var options = {
             url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
@@ -328,12 +338,72 @@ router.get("/test4", (req, res) => {
                 callback2 = async(error, response, body) => {
                     if(!error && response.statusCode == 200){
                         const data = JSON.parse(body);
-                        const datas = JSON.stringify(data.result)
+                        const blockHeight = JSON.stringify(data.result.height) // time 
+                        const blockTime = JSON.stringify(data.result.time) // time 
+                        const txArray = JSON.stringify(data.result.tx) // transaction array 
+                        const txNum = JSON.stringify(data.result.tx.length) // transaction number 
                         
-                        console.log(datas)
+                        // unix timestamp -> real time
+                        function Unix_timestamp(t){
+                          var date = new Date(t*1000);
+                          var year = date.getFullYear();
+                          var month = "0" + (date.getMonth()+1);
+                          var day = "0" + date.getDate();
+                          var hour = "0" + date.getHours();
+                          var minute = "0" + date.getMinutes();
+                          var second = "0" + date.getSeconds();
+                          return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
+                        }
+
+                        console.log("blockHeight : ", blockHeight);
+                        console.log("blockTime : ", blockTime);
+                        console.log("blockRealtime : ", Unix_timestamp(blockTime));
+                        console.log("txArray : ", txArray);
+                        console.log("txNum : ", txNum);
                     }
                 }
                 request(options, callback2);
+            }  
+        };
+        request(options, callback);
+    }
+});
+//=============================
+
+router.get("/testb", (req, res) => {  
+    for(let i =0; i< 9; i++) {         
+        
+        var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
+        var options = {
+            url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+            method:"POST",
+            headers: headers,
+            body: dataString
+        };
+        callback = async(error, response, body) => {
+            if(!error && response.statusCode == 200){
+                const data = JSON.parse(body);
+                const datas = JSON.stringify(data.result)
+                
+                console.log(datas)
+
+                // var dataString = `{"jsonrpc":"1.0","method":"getblock", "params":[${datas}]}`
+                // var options = {
+                //     url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+                //     method:"POST",
+                //     headers: headers,
+                //     body: dataString
+                // };
+                // callback2 = async(error, response, body) => {
+                //     if(!error && response.statusCode == 200){
+                //         const data = JSON.parse(body);
+                //         const datas = JSON.stringify(data.result)
+                        
+                //         //res.send(datas)
+                //         console.log(datas)
+                //     }
+                // }
+                // request(options, callback2);
             }  
         };
         request(options, callback);
