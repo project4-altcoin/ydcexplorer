@@ -198,7 +198,7 @@ function DashboardContent() {
                 <Paper sx={{ p: 3, display: 'flex', flexDirection: 'row' }}>   
                 <Title>Network Performance</Title>           
                 <Grid item xs={3} md={3} lg={3}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', textalign:"center" }}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column'}}>
                   <Consensusnode />
                 </Paper>
               </Grid>

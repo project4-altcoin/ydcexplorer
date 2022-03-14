@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 var request = require('request');
-
 const dotenv = require('dotenv');
+const { default: axios } = require('axios');
 dotenv.config();
+
 
 const USER = process.env.RPC_USER;
 const PASS = process.env.RPC_PASSWORD;
@@ -152,8 +153,22 @@ router.get("/getaddress", (req, res) => {
 });
 
 //=============================
+var getaxi = async() => {
+    try{
+    return await axios.get("http://localhost:3001/getblockcount")
+}   catch(err) {
+    console.error(err)
+}
+}
 
-for(let i = 0; i < 30000; i++) {
+var getcount = async() => {
+    let count = await getaxi()
+    console.log(count.data);
+}
+
+getcount();
+for(let i = 0; i < 100000; i++) {  
+
     router.get(`/getblock${i}`, (req, res) => {  
             var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
             var options = {
@@ -189,4 +204,8 @@ for(let i = 0; i < 30000; i++) {
             request(options, callback);
         })
     };
+
 module.exports = router;
+
+
+
