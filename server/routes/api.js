@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 var request = require('request');
-
 const dotenv = require('dotenv');
+const { default: axios } = require('axios');
 dotenv.config();
+
 
 const USER = process.env.RPC_USER;
 const PASS = process.env.RPC_PASSWORD;
@@ -211,45 +212,55 @@ router.get("/txhistory", (req, res) => {
     }
 });
 //=============================
+var getaxi = async() => {
+    try{
+    return await axios.get("http://localhost:3001/getblockcount")
+}   catch(err) {
+    console.error(err)
+}
+}
 
-router.get("/test", (req, res) => {  
-    var alldata = ""
-    for(let i =0; i< 9; i++) {         
-        
-        var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
-        var options = {
-            url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
-            method:"POST",
-            headers: headers,
-            body: dataString
-        };
-        callback = async(error, response, body) => {
-            if(!error && response.statusCode == 200){
-                const data = JSON.parse(body);
-                const datas = JSON.stringify(data.result)
-                
-                // console.log(datas)
+var getcount = async() => {
+    let count = await getaxi()
+    console.log(count.data);
+}
 
-                var dataString = `{"jsonrpc":"1.0","method":"getblock", "params":[${datas}]}`
-                var options = {
-                    url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
-                    method:"POST",
-                    headers: headers,
-                    body: dataString
-                };
-                callback2 = async(error, response, body) => {
-                    if(!error && response.statusCode == 200){
-                        const data = JSON.parse(body);
-                        const datas = JSON.stringify(data.result)
-                        
-                        console.log(datas)
+getcount();
+for(let i = 0; i < 100000; i++) {  
+
+    router.get(`/getblock${i}`, (req, res) => {  
+            var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
+            var options = {
+                url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+                method:"POST",
+                headers: headers,
+                body: dataString
+            };
+            callback = async(error, response, body) => {
+                if(!error && response.statusCode == 200){
+                    const data = JSON.parse(body);
+                    const datas = JSON.stringify(data.result)
+                    
+                    // console.log(datas)
+    
+                    var dataString = `{"jsonrpc":"1.0","method":"getblock", "params":[${datas}]}`
+                    var options2 = {
+                        url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+                        method:"POST",
+                        headers: headers,
+                        body: dataString
+                    };
+                    callback2 = async(error, response, body) => {
+                        if(!error && response.statusCode == 200){
+                            const data = JSON.parse(body);  
+                            const datas = JSON.stringify(data.result.tx.length)                     
+                            res.send(datas)                            
+                        }
                     }
-                }
-                request(options, callback2);
-            }  
-        };
-        request(options, callback);
-    }
-});
-
+                    request(options2, callback2);
+                }  
+            };
+            request(options, callback);
+        })
+    };
 module.exports = router;
