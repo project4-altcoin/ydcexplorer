@@ -266,7 +266,7 @@ for( var i=0; i<100; i++){
 // transaction history
 router.get("/txhistory", (req, res) => {  
     var alldata = ""
-    for(let i = 0; i < 14; i++) {         
+    for(let i = 0; i < 3; i++) {         
         var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
         var options = {
             url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
@@ -364,7 +364,10 @@ for(let i = 0; i < 100000; i++) {
                         if(!error && response.statusCode == 200){
                             const data = JSON.parse(body);  
                             const datas = JSON.stringify(data.result.tx.length)                     
+<<<<<<< HEAD
                             console.log(datas)
+=======
+>>>>>>> 5679962a8fa24e350faefd36f224270979a87821
                             res.send(datas)                            
                         }
                     }
@@ -374,6 +377,7 @@ for(let i = 0; i < 100000; i++) {
             request(options, callback);
         })
     };
+<<<<<<< HEAD
 //===================
     for(let i = 6400; i < 6410; i++) {  
 
@@ -413,4 +417,6 @@ for(let i = 0; i < 100000; i++) {
                 request(options, callback);
             })
         };
+=======
+>>>>>>> 5679962a8fa24e350faefd36f224270979a87821
 module.exports = router;
