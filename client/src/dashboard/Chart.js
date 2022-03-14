@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
+import { useEffect, useState } from 'react';
+import axios from "axios"
 
 // Generate Sales Data
 function createData(time, amount) {
@@ -21,6 +23,20 @@ const data = [
 ];
 
 export default function Chart() {
+
+  const [txHistory, settxHistory] = useState("");
+
+  var txHistoryApi = async() => {
+    const response = await axios.get(`http://localhost:3001/txhistory`)
+    settxHistory(response)
+  }
+  
+  useEffect(() => {
+    txHistoryApi();
+  },[]);
+  
+  console.log("txHistory is what?", txHistory)
+
   const theme = useTheme();
 
   return (

@@ -155,7 +155,7 @@ router.get("/getaddress", (req, res) => {
 // transaction history
 router.get("/txhistory", (req, res) => {  
     var alldata = ""
-    for(let i = 0; i < 14; i++) {         
+    for(let i = 0; i < 3; i++) {         
         var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
         var options = {
             url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
