@@ -24,20 +24,59 @@ const data = [
 
 export default function Chart() {
 
+  const [blockData, setblockData] = useState("");
   const [blockHash, setblockHash] = useState("");
+  const [blockHeight, setblockHeight] = useState("");
+  const [txTime, settxTime] = useState("");
+  const [txArray, settxArray] = useState("");
+  const [txNum, settxNum] = useState("");
 
-  var blockHashApi = async() => {
-    // blockhash
-    const response = await axios.get(`http://localhost:3001/txhistory`)
-    setblockHash(response.data.result)
+  var txHistory = async() => {
+    let i = 0;
+    while(i < 5){
+      const response = await axios.get(`http://localhost:3001/txhistory${i}`)
+      //blockData
+      // setblockData(response.data.result)
+      //blockHash
+      // setblockHash(response.data.result.hash)
+      //blockHeight
+      setblockHeight(response.data.result.height)
+      // transaction array
+      settxArray(response.data.result.tx)
+      // length of transaction array
+      settxNum(response.data.result.tx.length)
 
+      // unix timestamp -> real time
+      function Unix_timestamp(t){
+        var date = new Date(t*1000);
+        var year = date.getFullYear();
+        var month = "0" + (date.getMonth()+1);
+        var day = "0" + date.getDate();
+        var hour = "0" + date.getHours();
+        var minute = "0" + date.getMinutes();
+        var second = "0" + date.getSeconds();
+        return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
+      }
+
+      // txTime
+      settxTime(Unix_timestamp(response.data.result.time))
+
+      i++
+
+    }
   }
   
   useEffect(() => {
-    blockHashApi();
+    setTimeout(() => {
+      txHistory();
+    }, 3000);
   },[]);
-  
-  console.log("blockHash is what?", blockHash)
+
+  // console.log("blockData is what?", blockData)
+  // console.log("blockHash is what?", blockHash)
+  console.log("blockHeight is what?", blockHeight)
+  console.log("txTime is what?", txTime)
+  console.log("txArray is what?", txArray)
 
   const theme = useTheme();
 
