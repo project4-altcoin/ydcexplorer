@@ -24,18 +24,20 @@ const data = [
 
 export default function Chart() {
 
-  const [txHistory, settxHistory] = useState("");
+  const [blockHash, setblockHash] = useState("");
 
-  var txHistoryApi = async() => {
+  var blockHashApi = async() => {
+    // blockhash
     const response = await axios.get(`http://localhost:3001/txhistory`)
-    settxHistory(response)
+    setblockHash(response.data.result)
+
   }
   
   useEffect(() => {
-    txHistoryApi();
+    blockHashApi();
   },[]);
   
-  console.log("txHistory is what?", txHistory)
+  console.log("blockHash is what?", blockHash)
 
   const theme = useTheme();
 
