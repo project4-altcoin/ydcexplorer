@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 var request = require('request');
 const dotenv = require('dotenv');
-const { default: axios } = require('axios');
 dotenv.config();
 
 
@@ -212,22 +211,22 @@ router.get("/txhistory", (req, res) => {
     }
 });
 //=============================
-var getaxi = async() => {
-    try{
-    return await axios.get("http://localhost:3001/getblockcount")
-}   catch(err) {
-    console.error(err)
-}
-}
 
-var getcount = async() => {
-    let count = await getaxi()
-    console.log(count.data);
-}
+// var getblock = async() => {
+//     try{
+//     return await axios.get("http://localhost:3001/getblockcount")
+//     }catch(err) {
+//     console.error(err)
+// }
+// };
+// var getcount = async() => {
+//   let ct = await getblock()
+//   return console.log(ct.data)
+// }
 
-getcount();
-for(let i = 0; i < 100000; i++) {  
+// getcount()
 
+for(let i = 0; i < 40000; i++) {  
     router.get(`/getblock${i}`, (req, res) => {  
             var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
             var options = {
