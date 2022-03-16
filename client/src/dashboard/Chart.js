@@ -32,18 +32,20 @@ export default function Chart() {
   const [txArray, settxArray] = useState("");
   const [txNum, settxNum] = useState("");
 
+  const [blockArr, setblockArr] = useState([]);
+
   var txHistory = async() => {
     let i = 0;
-    while(i < 10){
+    while(i < 3){
       const response = await axios.get(`http://localhost:3001/txhistory${i}`)
       // blockData
-      // setblockData(response.data.result)
+      setblockData(response.data.result)
       // blockHash
-      // setblockHash(response.data.result.hash)
+      setblockHash(response.data.result.hash)
       // blockHeight
-      // setblockHeight(response.data.result.height)
+      setblockHeight(response.data.result.height)
       // transaction array
-      // settxArray(response.data.result.tx)
+      settxArray(response.data.result.tx)
       // length of transaction array
       settxNum(response.data.result.tx.length)
 
@@ -66,6 +68,9 @@ export default function Chart() {
 
       i++
       console.log("i : ", i)
+
+      // blockdata in array
+      setblockArr(blockArr => [...blockArr, response.data.result])
     }
   }
   
@@ -78,21 +83,12 @@ export default function Chart() {
   // console.log("blockData is what?", blockData)
   // console.log("blockHash is what?", blockHash)
   // console.log("blockHeight is what?", blockHeight)
-  console.log("txTime is what?", txTime)
-  console.log("txRealtime is what?", txRealtime)
+  // console.log("txTime is what?", txTime)
+  // console.log("txRealtime is what?", txRealtime)
   // console.log("txArray is  what?", txArray)
   // console.log("txNum is what?", txNum)
-
-
-
-    // txTimeNum object
-  // let txTimeNum = {};
-
-  // txTimeNum = {
-  //   txTime : txNum
-  // }
-  // console.log("txTimeNum : ", txTimeNum)
-
+  
+  console.log("blockArr is array of blockdata : ", blockArr)
   function splitTime () {
 
   };
