@@ -198,7 +198,7 @@ router.get(`/getblock`, (req, res) => {
 
 //=============================
 // transaction history
-for(let i = 0; i < 10; i ++){
+for(let i = 0; i < 200; i ++){
     router.get(`/txhistory${i}`, (req, res) => {
         var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblockhash", "params":[${i}]}`
         console.log(dataString) 

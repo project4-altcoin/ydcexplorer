@@ -28,21 +28,22 @@ export default function Chart() {
   const [blockHash, setblockHash] = useState("");
   const [blockHeight, setblockHeight] = useState("");
   const [txTime, settxTime] = useState("");
+  const [txRealtime, settxRealtime] = useState("");
   const [txArray, settxArray] = useState("");
   const [txNum, settxNum] = useState("");
 
   var txHistory = async() => {
     let i = 0;
-    while(i < 5){
+    while(i < 10){
       const response = await axios.get(`http://localhost:3001/txhistory${i}`)
-      //blockData
+      // blockData
       // setblockData(response.data.result)
-      //blockHash
+      // blockHash
       // setblockHash(response.data.result.hash)
-      //blockHeight
-      setblockHeight(response.data.result.height)
+      // blockHeight
+      // setblockHeight(response.data.result.height)
       // transaction array
-      settxArray(response.data.result.tx)
+      // settxArray(response.data.result.tx)
       // length of transaction array
       settxNum(response.data.result.tx.length)
 
@@ -59,10 +60,12 @@ export default function Chart() {
       }
 
       // txTime
-      settxTime(Unix_timestamp(response.data.result.time))
+      settxTime(response.data.result.time)
+      //txRealTime
+      settxRealtime(Unix_timestamp(response.data.result.time))
 
       i++
-
+      console.log("i : ", i)
     }
   }
   
@@ -74,9 +77,25 @@ export default function Chart() {
 
   // console.log("blockData is what?", blockData)
   // console.log("blockHash is what?", blockHash)
-  console.log("blockHeight is what?", blockHeight)
+  // console.log("blockHeight is what?", blockHeight)
   console.log("txTime is what?", txTime)
-  console.log("txArray is what?", txArray)
+  console.log("txRealtime is what?", txRealtime)
+  // console.log("txArray is  what?", txArray)
+  // console.log("txNum is what?", txNum)
+
+
+
+    // txTimeNum object
+  // let txTimeNum = {};
+
+  // txTimeNum = {
+  //   txTime : txNum
+  // }
+  // console.log("txTimeNum : ", txTimeNum)
+
+  function splitTime () {
+
+  };
 
   const theme = useTheme();
 
