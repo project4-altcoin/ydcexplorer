@@ -151,6 +151,50 @@ router.get("/getaddress", (req, res) => {
     request(options, callback);
 });
 
+router.get("/getblockhash", (req, res) => {
+    var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblockhash", "params":[1]}`
+    console.log(dataString) 
+    var options = {
+        url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+        method:"POST",
+        headers: headers,
+        body: dataString
+    };
+    callback = (error, response, body) => {
+        console.log(response)
+        if(!error && response.statusCode == 200){
+            const data = JSON.parse(body);
+            const datas = JSON.stringify(data.result)
+            console.log(datas)
+            res.send(datas);
+        }
+    };
+
+    request(options, callback);
+});
+
+router.get(`/getblock`, (req, res) => {
+    // var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblock", "params":["8f310888ad2ba2098f151359284c97967a68b3ad1ad9f7e09e026d8c8a8948ee"]}`
+    var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblock", "params":[]}`
+    var options = {
+        url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+        method:"POST",
+        headers: headers,
+        body: dataString
+    };
+
+    callback = (error, response, body) => {
+        console.log(response)
+        if(!error && response.statusCode == 200){
+            const data = JSON.parse(body);   
+            // res.send(JSON.stringify(data.result.tx.length))       
+            res.send(JSON.stringify(data.result))       
+        } 
+    };
+
+    request(options, callback);
+});
+
 //=============================
 router.get("/blockcount", (req, res) => {
     var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"gettxoutsetinfo", "params":[]}`
@@ -264,10 +308,10 @@ for( var i=0; i<100; i++){
 
 //=============================
 // transaction history
-router.get("/txhistory", (req, res) => {  
-    var alldata = ""
-    for(let i = 0; i < 3; i++) {         
-        var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
+for(let i = 0; i < 200; i ++){
+    router.get(`/txhistory${i}`, (req, res) => {
+        var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblockhash", "params":[${i}]}`
+        console.log(dataString) 
         var options = {
             url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
             method:"POST",
@@ -275,12 +319,13 @@ router.get("/txhistory", (req, res) => {
             body: dataString
         };
         callback = async(error, response, body) => {
+            console.log(response)
             if(!error && response.statusCode == 200){
                 const data = JSON.parse(body);
                 const datas = JSON.stringify(data.result)
+                // res.send(datas);
                 
-                // console.log(datas)
-
+                // callback2
                 var dataString = `{"jsonrpc":"1.0","method":"getblock", "params":[${datas}]}`
                 var options = {
                     url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
@@ -291,11 +336,14 @@ router.get("/txhistory", (req, res) => {
                 callback2 = async(error, response, body) => {
                     if(!error && response.statusCode == 200){
                         const data = JSON.parse(body);
+                        // send data to front
+                        res.send(data);
+    
+                        // extracted data
                         const blockHeight = JSON.stringify(data.result.height) // time 
                         const blockTime = JSON.stringify(data.result.time) // time 
                         const txArray = JSON.stringify(data.result.tx) // transaction array 
                         const txNum = JSON.stringify(data.result.tx.length) // transaction number 
-                        
                         // unix timestamp -> real time
                         function Unix_timestamp(t){
                             var date = new Date(t*1000);
@@ -307,7 +355,7 @@ router.get("/txhistory", (req, res) => {
                             var second = "0" + date.getSeconds();
                             return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
                         }
-
+    
                         console.log("blockHeight : ", blockHeight);
                         console.log("blockTime : ", blockTime);
                         console.log("blockRealtime : ", Unix_timestamp(blockTime));
@@ -316,11 +364,15 @@ router.get("/txhistory", (req, res) => {
                     }
                 }
                 request(options, callback2);
-            }  
+            }
         };
         request(options, callback);
-    }
-});
+    });
+}
+
+
+
+
 //=============================
 var getaxi = async() => {
     try{
