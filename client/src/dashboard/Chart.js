@@ -35,7 +35,12 @@ export default function Chart() {
   // blockdata array
   const [blockArr, setblockArr] = useState([]);
   // time & txnum object
-  const [blockObj, setblockObj] = useState({});
+  const [blockObj, setblockObj] = useState({
+    
+      time : "",
+      txnum : ""
+    
+  });
 
   var txHistory = async() => {
     for(let i = 0; i < 3; i ++){
@@ -75,12 +80,11 @@ export default function Chart() {
       setblockArr(blockArr => [...blockArr, response.data.result])
 
       // time & txnum in obj
-      const timenumObj = {
+      setblockObj((blockObj) => ({
         ...blockObj,
-        [response.data.result.time] : response.data.result.tx.length
-      }
-
-      setblockObj(timenumObj)
+        time : response.data.result.time,
+        txnum : response.data.result.tx.length        
+      }))
 
 
     }
