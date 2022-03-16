@@ -298,14 +298,14 @@ router.get("/txhistory", (req, res) => {
                         
                         // unix timestamp -> real time
                         function Unix_timestamp(t){
-                          var date = new Date(t*1000);
-                          var year = date.getFullYear();
-                          var month = "0" + (date.getMonth()+1);
-                          var day = "0" + date.getDate();
-                          var hour = "0" + date.getHours();
-                          var minute = "0" + date.getMinutes();
-                          var second = "0" + date.getSeconds();
-                          return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
+                            var date = new Date(t*1000);
+                            var year = date.getFullYear();
+                            var month = "0" + (date.getMonth()+1);
+                            var day = "0" + date.getDate();
+                            var hour = "0" + date.getHours();
+                            var minute = "0" + date.getMinutes();
+                            var second = "0" + date.getSeconds();
+                            return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
                         }
 
                         console.log("blockHeight : ", blockHeight);
@@ -364,10 +364,7 @@ for(let i = 0; i < 100000; i++) {
                         if(!error && response.statusCode == 200){
                             const data = JSON.parse(body);  
                             const datas = JSON.stringify(data.result.tx.length)                     
-<<<<<<< HEAD
                             console.log(datas)
-=======
->>>>>>> 5679962a8fa24e350faefd36f224270979a87821
                             res.send(datas)                            
                         }
                     }
@@ -377,9 +374,8 @@ for(let i = 0; i < 100000; i++) {
             request(options, callback);
         })
     };
-<<<<<<< HEAD
 //===================
-    for(let i = 6400; i < 6410; i++) {  
+    for(let i = 0; i < 10; i++) {  
 
         router.get(`/getblocka${i}`, (req, res) => {  
                 var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
@@ -414,9 +410,6 @@ for(let i = 0; i < 100000; i++) {
                         // request(options2, callback2);
                     }  
                 };
-                request(options, callback);
             })
         };
-=======
->>>>>>> 5679962a8fa24e350faefd36f224270979a87821
 module.exports = router;
