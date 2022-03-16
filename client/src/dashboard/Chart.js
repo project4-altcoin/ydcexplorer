@@ -32,11 +32,13 @@ export default function Chart() {
   const [txArray, settxArray] = useState("");
   const [txNum, settxNum] = useState("");
 
+  // blockdata array
   const [blockArr, setblockArr] = useState([]);
+  // time & txnum object
+  const [blockObj, setblockObj] = useState({});
 
   var txHistory = async() => {
-    let i = 0;
-    while(i < 3){
+    for(let i = 0; i < 3; i ++){
       const response = await axios.get(`http://localhost:3001/txhistory${i}`)
       // blockData
       setblockData(response.data.result)
@@ -71,6 +73,16 @@ export default function Chart() {
 
       // blockdata in array
       setblockArr(blockArr => [...blockArr, response.data.result])
+
+      // time & txnum in obj
+      const timenumObj = {
+        ...blockObj,
+        [response.data.result.time] : response.data.result.tx.length
+      }
+
+      setblockObj(timenumObj)
+
+
     }
   }
   
@@ -89,6 +101,7 @@ export default function Chart() {
   // console.log("txNum is what?", txNum)
   
   console.log("blockArr is array of blockdata : ", blockArr)
+  console.log("blockObj is object of time & txnum : ", blockObj)
   function splitTime () {
 
   };
