@@ -33,17 +33,18 @@ export default function Chart() {
   const [txNum, settxNum] = useState("");
 
   // blockdata array
-  const [blockArr, setblockArr] = useState([]);
+  const [TmArr, setTmArr] = useState([]); // unixtimestamp array
+  const [realTmArr, setrealTmArr] = useState([]); // realtime array
+  const [txLeng, settxLeng] = useState([]); // transaction num array
   // time & txnum object
   const [blockObj, setblockObj] = useState({
-    
       time : "",
       txnum : ""
-    
   });
 
   var txHistory = async() => {
-    for(let i = 0; i < 3; i ++){
+    let i = 1;
+    while(i < 21){
       const response = await axios.get(`http://localhost:3001/txhistory${i}`)
       // blockData
       setblockData(response.data.result)
@@ -73,18 +74,19 @@ export default function Chart() {
       //txRealTime
       settxRealtime(Unix_timestamp(response.data.result.time))
 
-      i++
       console.log("i : ", i)
+      i++
 
       // blockdata in array
-      setblockArr(blockArr => [...blockArr, response.data.result])
-
+      setTmArr(TmArr => [...TmArr, response.data.result.time])
+      setrealTmArr(realTmArr => [...realTmArr, Unix_timestamp(response.data.result.time)])
+      settxLeng(txLeng => [...txLeng, response.data.result.tx.length])
       // time & txnum in obj
-      setblockObj((blockObj) => ({
-        ...blockObj,
-        time : response.data.result.time,
-        txnum : response.data.result.tx.length        
-      }))
+      // setblockObj((blockObj) => ({
+      //   ...blockObj,
+      //   time : response.data.result.time,
+      //   txnum : response.data.result.tx.length        
+      // }))
 
 
     }
@@ -99,13 +101,15 @@ export default function Chart() {
   // console.log("blockData is what?", blockData)
   // console.log("blockHash is what?", blockHash)
   // console.log("blockHeight is what?", blockHeight)
-  // console.log("txTime is what?", txTime)
-  // console.log("txRealtime is what?", txRealtime)
+  console.log("txTime is what?", txTime)
+  console.log("txRealtime is what?", txRealtime)
   // console.log("txArray is  what?", txArray)
   // console.log("txNum is what?", txNum)
   
-  console.log("blockArr is array of blockdata : ", blockArr)
-  console.log("blockObj is object of time & txnum : ", blockObj)
+  console.log("TmArr is array of unixtimestamp : ", TmArr)
+  console.log("realTmArr is array of realTime : ", realTmArr)
+  console.log("txLeng is array of transaction number : ", txLeng)
+  // console.log("blockObj is object of time & txnum : ", blockObj)
   function splitTime () {
 
   };
