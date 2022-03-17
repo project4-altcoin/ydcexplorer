@@ -28,11 +28,6 @@ export default function Chart() {
   const [TmArr, setTmArr] = useState([]); // unixtimestamp array
   const [realTmArr, setrealTmArr] = useState([]); // realtime array
   const [txLeng, settxLeng] = useState([]); // transaction num array
-  // time & txnum object
-  const [blockObj, setblockObj] = useState({
-      time : "",
-      txnum : ""
-  });
 
   var txHistory = async() => {
     let i = 1;
