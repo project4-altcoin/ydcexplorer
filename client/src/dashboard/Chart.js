@@ -24,16 +24,7 @@ function createData(time, amount) {
 
 export default function Chart() {
 
-  const [blockData, setblockData] = useState("");
-  const [blockHash, setblockHash] = useState("");
-  const [blockHeight, setblockHeight] = useState("");
-  const [txTime, settxTime] = useState("");
-  const [txRealtime, settxRealtime] = useState("");
-  const [txArray, settxArray] = useState("");
-  const [txNum, settxNum] = useState("");
-
   // blockdata array
-  const [allData, setallData] = useState([]); // unixtimestamp array
   const [TmArr, setTmArr] = useState([]); // unixtimestamp array
   const [realTmArr, setrealTmArr] = useState([]); // realtime array
   const [txLeng, settxLeng] = useState([]); // transaction num array
@@ -47,16 +38,6 @@ export default function Chart() {
     let i = 1;
     while(i < 110){
       const response = await axios.get(`http://localhost:3001/txhistory${i}`)
-      // blockData
-      setblockData(response.data.result)
-      // blockHash
-      setblockHash(response.data.result.hash)
-      // blockHeight
-      setblockHeight(response.data.result.height)
-      // transaction array
-      settxArray(response.data.result.tx)
-      // length of transaction array
-      settxNum(response.data.result.tx.length)
 
       // unix timestamp -> real time
       function Unix_timestamp(t){
@@ -71,25 +52,15 @@ export default function Chart() {
         return hour.substr(-2) + ":" + minute.substr(-2);
       }
 
-      // txTime
-      settxTime(response.data.result.time)
-      //txRealTime
-      settxRealtime(Unix_timestamp(response.data.result.time))
 
       console.log("i : ", i)
       i++
 
       // blockdata in array
-      // setallData(allData => [...allData, response.data.result])
       setTmArr(TmArr => [...TmArr, response.data.result.time])
       setrealTmArr(realTmArr => [...realTmArr, Unix_timestamp(response.data.result.time)])
       settxLeng(txLeng => [...txLeng, response.data.result.tx.length])
-      // time & txnum in obj
-      // setblockObj((blockObj) => ({
-      //   ...blockObj,
-      //   time : response.data.result.time,
-      //   txnum : response.data.result.tx.length        
-      // }))
+
 
 
     }
@@ -101,13 +72,6 @@ export default function Chart() {
     }, 5000);
   },[]);
 
-  // console.log("blockData is what?", blockData)
-  // console.log("blockHash is what?", blockHash)
-  // console.log("blockHeight is what?", blockHeight)
-
-  // console.log("txTime is what?", txTime)
-  // console.log("txRealtime is what?", txRealtime)
-
   // console.log("txArray is  what?", txArray)
   // console.log("txNum is what?", txNum)
   
@@ -116,7 +80,6 @@ export default function Chart() {
   // console.log("realTmArr is array of realTime : ", realTmArr)
   // console.log("txLeng is array of transaction number : ", txLeng)
 
-  // console.log("blockObj is object of time & txnum : ", blockObj)
 
   let txNumSum0 = 0;
   let txNumSum1 = 0;
