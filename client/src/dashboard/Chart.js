@@ -10,6 +10,18 @@ function createData(time, amount) {
   return { time, amount };
 }
 
+// const data = [
+//   createData('00:00', 0),
+//   createData('03:00', 300),
+//   createData('06:00', 600),
+//   createData('09:00', 800),
+//   createData('12:00', 1500),
+//   createData('15:00', 2000),
+//   createData('18:00', 2400),
+//   createData('21:00', 2400),
+//   createData('24:00', undefined),
+// ];
+
 export default function Chart() {
 
   const [blockData, setblockData] = useState("");
@@ -21,6 +33,7 @@ export default function Chart() {
   const [txNum, settxNum] = useState("");
 
   // blockdata array
+  const [allData, setallData] = useState([]); // unixtimestamp array
   const [TmArr, setTmArr] = useState([]); // unixtimestamp array
   const [realTmArr, setrealTmArr] = useState([]); // realtime array
   const [txLeng, settxLeng] = useState([]); // transaction num array
@@ -32,7 +45,7 @@ export default function Chart() {
 
   var txHistory = async() => {
     let i = 1;
-    while(i < 11){
+    while(i < 110){
       const response = await axios.get(`http://localhost:3001/txhistory${i}`)
       // blockData
       setblockData(response.data.result)
@@ -67,6 +80,7 @@ export default function Chart() {
       i++
 
       // blockdata in array
+      setallData(allData => [...allData, response.data.result])
       setTmArr(TmArr => [...TmArr, response.data.result.time])
       setrealTmArr(realTmArr => [...realTmArr, Unix_timestamp(response.data.result.time)])
       settxLeng(txLeng => [...txLeng, response.data.result.tx.length])
@@ -95,22 +109,25 @@ export default function Chart() {
   // console.log("txArray is  what?", txArray)
   // console.log("txNum is what?", txNum)
   
+  console.log("allData is every data of each block : ", allData)
   console.log("TmArr is array of unixtimestamp : ", TmArr)
   console.log("realTmArr is array of realTime : ", realTmArr)
   console.log("txLeng is array of transaction number : ", txLeng)
   // console.log("blockObj is object of time & txnum : ", blockObj)
 
 
+
+
   const data = [
-    createData('00:00', 0),
-    createData('03:00', 300),
-    createData(realTmArr[0], 600),
-    createData('09:00', 800),
-    createData('12:00', 1500),
-    createData('15:00', 2000),
-    createData('18:00', 2400),
-    createData('21:00', 2400),
-    createData('24:00', undefined),
+    createData(realTmArr[0], 0),
+    createData(realTmArr[8], 3),
+    createData(realTmArr[18], 6),
+    createData(realTmArr[28], 8),
+    createData(realTmArr[46], 15),
+    createData(realTmArr[62], 20),
+    createData(realTmArr[78], 24),
+    createData(realTmArr[90], 24),
+    createData(realTmArr[100], undefined),
   ];
 
 
