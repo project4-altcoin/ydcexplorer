@@ -10,18 +10,6 @@ function createData(time, amount) {
   return { time, amount };
 }
 
-const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', undefined),
-];
-
 export default function Chart() {
 
   const [blockData, setblockData] = useState("");
@@ -44,7 +32,7 @@ export default function Chart() {
 
   var txHistory = async() => {
     let i = 1;
-    while(i < 21){
+    while(i < 11){
       const response = await axios.get(`http://localhost:3001/txhistory${i}`)
       // blockData
       setblockData(response.data.result)
@@ -66,7 +54,8 @@ export default function Chart() {
         var hour = "0" + date.getHours();
         var minute = "0" + date.getMinutes();
         var second = "0" + date.getSeconds();
-        return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
+        // return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
+        return hour.substr(-2) + ":" + minute.substr(-2);
       }
 
       // txTime
@@ -110,6 +99,22 @@ export default function Chart() {
   console.log("realTmArr is array of realTime : ", realTmArr)
   console.log("txLeng is array of transaction number : ", txLeng)
   // console.log("blockObj is object of time & txnum : ", blockObj)
+
+
+  const data = [
+    createData('00:00', 0),
+    createData('03:00', 300),
+    createData(realTmArr[0], 600),
+    createData('09:00', 800),
+    createData('12:00', 1500),
+    createData('15:00', 2000),
+    createData('18:00', 2400),
+    createData('21:00', 2400),
+    createData('24:00', undefined),
+  ];
+
+
+
   function splitTime () {
 
   };
