@@ -26,6 +26,7 @@ import Blockpertxs from './performance/Blockpertxs';
 import Avgblocktime1hour from "./performance/Avgblocktime1hour"
 import Avgblocktime24hour from "./performance/Avgblocktime24hour"
 import Consensusnode from "./performance/Consensusnode"
+import RecentTXs from './RecentTXs';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -224,6 +225,11 @@ function DashboardContent() {
               <Grid item xs={12} md={12} lg={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   <Orders />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={12} lg={12}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  <RecentTXs />
                 </Paper>
               </Grid>
               {/* <Grid item xs={12} md={6} lg={6}>
