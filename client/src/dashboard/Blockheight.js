@@ -21,7 +21,7 @@ export default function Blockheight() {
     callApi();
   },[]);
   
-  console.log(inputData)
+  //console.log(inputData)
 
   return (
     <React.Fragment>
