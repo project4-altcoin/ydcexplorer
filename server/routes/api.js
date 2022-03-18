@@ -332,10 +332,9 @@ function getdt() {
             resolve(blockdata)       
     })
 }
-
 getdt().then(function(dt){
- 
-    for(let i = dt.data - 576; i < dt.data; i++) {  
+    // console.log(dt.data)
+    for(let i = 0; i < dt.data; i++) {  
 
         router.get(`/getblock${i}`, (req, res) => {  
                 var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
