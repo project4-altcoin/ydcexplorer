@@ -114,7 +114,7 @@ const number = [
             <TableCell>BLOCK#</TableCell>
             <TableCell>HASH</TableCell>
             <TableCell>Proposer</TableCell>
-            <TableCell align="right">Reward</TableCell>
+            <TableCell>Reward</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
