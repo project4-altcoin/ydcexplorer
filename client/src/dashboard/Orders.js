@@ -9,46 +9,6 @@ import Title from './Title';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-// Generate Order Data
-// function createData(id, date, name, shipTo, paymentMethod, amount) {
-//   return { id, date, name, shipTo, paymentMethod, amount };
-// }
-
-// const rows = [
-//   createData(
-//     0,
-//     '16 Mar, 2019',
-//     'Elvis Presley',
-//     'Tupelo, MS',
-//     'VISA ⠀•••• 3719',
-//     312.44,
-//   ),
-//   createData(
-//     1,
-//     '16 Mar, 2019',
-//     'Paul McCartney',
-//     'London, UK',
-//     'VISA ⠀•••• 2574',
-//     866.99,
-//   ),
-//   createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-//   createData(
-//     3,
-//     '16 Mar, 2019',
-//     'Michael Jackson',
-//     'Gary, IN',
-//     'AMEX ⠀•••• 2000',
-//     654.39,
-//   ),
-//   createData(
-//     4,
-//     '15 Mar, 2019',
-//     'Bruce Springsteen',
-//     'Long Branch, NJ',
-//     'VISA ⠀•••• 5919',
-//     212.79,
-//   ),
-// ];
 
 function preventDefault(event) {
   event.preventDefault();
@@ -58,69 +18,116 @@ export default function Orders() {
 
   const [blockCount, setBlockCount] = useState([]);
   const [blockHash, setBlockHash] = useState([]);
-  const [addresses, setAddresses] = useState([]);
+  const [proposer, setProposer] = useState([]);
+  const [reward, setReward] = useState([]);
+ 
+var callApi1 = async() => {
 
-  var callApi1 = async() => {
-   const response = await axios.get("http://localhost:3001/getblockcount")
-   setBlockCount(response.data.result)
- }
-   
- useEffect(() => {
-   callApi1();
- },[]);
+  var array = []
 
+  for(let i = 0 ; i < 5; i++) {
+    const response = await axios.get("http://localhost:3001/getblockcount")
+    let count = response.data
+    let count2 = count - i
+    array.push(count2)
+  }
+  console.log(array)
+  setBlockCount(array)
+  }
 
- var callApi2 = async() => {
-  const response = await axios.get("http://localhost:3001/getbestblockhash")
-  setBlockHash(response.data.result)
-}
-  
+useEffect(() => {
+  callApi1();
+},[]);
+
+var callApi2 = async() => {
+
+  const response = await axios.get("http://localhost:3001/getblockcount")
+  let count = response.data
+
+  var array = []
+
+  for(let i = count; i > count - 5; i--) {
+    const response = await axios.get(`http://localhost:3001/recentblockhash${i}`)
+    array.push(response.data)
+  }
+  console.log(array)
+  setBlockHash(array)
+  }
+
 useEffect(() => {
   callApi2();
 },[]);
 
-
 var callApi3 = async() => {
-  const response = await axios.get("http://localhost:3001/getaddress")
-  setAddresses(response.data)
-}
-  
+
+  const response = await axios.get("http://localhost:3001/getblockcount")
+  let count = response.data
+
+  var array = []
+
+  for(let i = count; i > count - 5; i--) {
+    const response = await axios.get(`http://localhost:3001/recentproposer${i}`)
+    array.push(response.data)
+  }
+  console.log(array)
+  setProposer(array)
+  }
+
 useEffect(() => {
   callApi3();
 },[]);
 
+var callApi4 = async() => {
 
+  const response = await axios.get("http://localhost:3001/getblockcount")
+  let count = response.data
+
+  var array = []
+
+  for(let i = count; i > count - 5; i--) {
+    const response = await axios.get(`http://localhost:3001/recentreward${i}`)
+    array.push(response.data)
+  }
+  console.log(array)
+  setReward(array)
+  }
+
+useEffect(() => {
+  callApi4();
+},[]);
+
+
+const number = [
+  { count : 0 },
+  { count : 1 },
+  { count : 2 },
+  { count : 3 },
+  { count : 4 }
+]
 
   return (
     <React.Fragment>
-      <Title>Recent Orders</Title>
+      <Title>Recent Blocks</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>BLOCK#</TableCell>
             <TableCell>HASH</TableCell>
-            <TableCell>Addresses</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>Proposer</TableCell>
+            <TableCell align="right">Reward</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow>
-            <TableCell>{blockCount}</TableCell>
-            <TableCell>{blockHash}</TableCell>
-            <TableCell>{addresses}</TableCell>
-            <TableCell>test4</TableCell>
-            <TableCell>test5</TableCell>
-          </TableRow>
-          {/* {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{`$${row.amount}`}</TableCell>
-            </TableRow>
-          ))} */}
+          {number.map( (val) => {
+            return (
+              <TableRow key={val.count}>
+                <TableCell>{blockCount[val.count]}</TableCell>
+                <TableCell>{blockHash[val.count]}</TableCell>
+                <TableCell>{proposer[val.count]}</TableCell>
+                <TableCell>{reward[val.count]}</TableCell>
+              </TableRow>
+            )
+          })}
         </TableBody>
       </Table>
       <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
