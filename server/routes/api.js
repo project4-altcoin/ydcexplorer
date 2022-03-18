@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 var request = require('request');
 const dotenv = require('dotenv');
-const { default: axios } = require('axios');
+const axios = require("axios");
 dotenv.config();
 
 
 const USER = process.env.RPC_USER;
 const PASS = process.env.RPC_PASSWORD;
-const PORT = 9776;
+const PORT = 9376;
 // const ACCOUNT = "jkkim";
 const ID_STRING = "kigacoin_id";
 const headers = {
@@ -154,7 +154,6 @@ router.get("/getaddress", (req, res) => {
 
 router.get("/getblockhash", (req, res) => {
     var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblockhash", "params":[1]}`
-    console.log(dataString) 
     var options = {
         url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
         method:"POST",
@@ -162,11 +161,9 @@ router.get("/getblockhash", (req, res) => {
         body: dataString
     };
     callback = (error, response, body) => {
-        console.log(response)
         if(!error && response.statusCode == 200){
             const data = JSON.parse(body);
             const datas = JSON.stringify(data.result)
-            console.log(datas)
             res.send(datas);
         }
     };
@@ -185,7 +182,6 @@ router.get(`/getblock`, (req, res) => {
     };
 
     callback = (error, response, body) => {
-        console.log(response)
         if(!error && response.statusCode == 200){
             const data = JSON.parse(body);   
             // res.send(JSON.stringify(data.result.tx.length))       
@@ -200,8 +196,7 @@ router.get(`/getblock`, (req, res) => {
 // transaction history
 for(let i = 0; i < 200; i ++){
     router.get(`/txhistory${i}`, (req, res) => {
-        var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblockhash", "params":[${i}]}`
-        console.log(dataString) 
+        var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblockhash", "params":[${i}]}` 
         var options = {
             url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
             method:"POST",
@@ -209,7 +204,6 @@ for(let i = 0; i < 200; i ++){
             body: dataString
         };
         callback = async(error, response, body) => {
-            console.log(response)
             if(!error && response.statusCode == 200){
                 const data = JSON.parse(body);
                 const datas = JSON.stringify(data.result)
@@ -244,13 +238,7 @@ for(let i = 0; i < 200; i ++){
                           var minute = "0" + date.getMinutes();
                           var second = "0" + date.getSeconds();
                           return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
-                        }
-    
-                        console.log("blockHeight : ", blockHeight);
-                        console.log("blockTime : ", blockTime);
-                        console.log("blockRealtime : ", Unix_timestamp(blockTime));
-                        console.log("txArray : ", txArray);
-                        console.log("txNum : ", txNum);
+                        }    
                     }
                 }
                 request(options, callback2);
@@ -264,21 +252,19 @@ for(let i = 0; i < 200; i ++){
 
 
 //=============================
-var getaxi = async() => {
-    try{
-    return await axios.get("http://localhost:3001/getblockcount")
-}   catch(err) {
-    console.error(err)
+async function getdt2(){
+    return await axios.get("http://localhost:3001/getblockcount") 
 }
-}
-
-var getcount = async() => {
-    let count = await getaxi()
-    console.log(count.data);
+function getdt() {
+    return new Promise(function(resolve) {        
+            let blockdata = getdt2()
+            resolve(blockdata)       
+    })
 }
 
-getcount();
-for(let i = 0; i < 100000; i++) {  
+getdt().then(function(dt){
+ 
+for(let i = dt.data - 576; i < dt.data; i++) {  
 
     router.get(`/getblock${i}`, (req, res) => {  
             var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
@@ -293,7 +279,7 @@ for(let i = 0; i < 100000; i++) {
                     const data = JSON.parse(body);
                     const datas = JSON.stringify(data.result)
                     
-                    // console.log(datas)
+          
     
                     var dataString = `{"jsonrpc":"1.0","method":"getblock", "params":[${datas}]}`
                     var options2 = {
@@ -315,4 +301,5 @@ for(let i = 0; i < 100000; i++) {
             request(options, callback);
         })
     };
+})
 module.exports = router;
