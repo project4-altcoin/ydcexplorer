@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 var request = require('request');
 const dotenv = require('dotenv');
-const { default: axios } = require('axios');
+const axios = require("axios");
 dotenv.config();
 
 
 const USER = process.env.RPC_USER;
 const PASS = process.env.RPC_PASSWORD;
-const PORT = 9776;
-const ACCOUNT = "jidoil";
+const PORT = 9376;
+// const ACCOUNT = "jkkim";
 const ID_STRING = "kigacoin_id";
 const headers = {
     "content-type": "text/plain;"
@@ -220,7 +220,6 @@ for(let i = 0; i < 8000; i ++){
 
 router.get("/getblockhash", (req, res) => {
     var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblockhash", "params":[1]}`
-    console.log(dataString) 
     var options = {
         url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
         method:"POST",
@@ -228,11 +227,9 @@ router.get("/getblockhash", (req, res) => {
         body: dataString
     };
     callback = (error, response, body) => {
-        console.log(response)
         if(!error && response.statusCode == 200){
             const data = JSON.parse(body);
             const datas = JSON.stringify(data.result)
-            console.log(datas)
             res.send(datas);
         }
     };
@@ -268,8 +265,7 @@ router.post("/getblock", (req, res)=>{
 // 진경 transaction history 
 for(let i = 0; i < 200; i ++){
     router.get(`/txhistory${i}`, (req, res) => {
-        var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblockhash", "params":[${i}]}`
-        console.log(dataString) 
+        var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblockhash", "params":[${i}]}` 
         var options = {
             url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
             method:"POST",
@@ -277,7 +273,6 @@ for(let i = 0; i < 200; i ++){
             body: dataString
         };
         callback = async(error, response, body) => {
-            console.log(response)
             if(!error && response.statusCode == 200){
                 const data = JSON.parse(body);
                 const datas = JSON.stringify(data.result)
@@ -304,21 +299,15 @@ for(let i = 0; i < 200; i ++){
                         const txNum = JSON.stringify(data.result.tx.length) // transaction number 
                         // unix timestamp -> real time
                         function Unix_timestamp(t){
-                            var date = new Date(t*1000);
-                            var year = date.getFullYear();
-                            var month = "0" + (date.getMonth()+1);
-                            var day = "0" + date.getDate();
-                            var hour = "0" + date.getHours();
-                            var minute = "0" + date.getMinutes();
-                            var second = "0" + date.getSeconds();
-                            return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
-                        }
-    
-                        console.log("blockHeight : ", blockHeight);
-                        console.log("blockTime : ", blockTime);
-                        console.log("blockRealtime : ", Unix_timestamp(blockTime));
-                        console.log("txArray : ", txArray);
-                        console.log("txNum : ", txNum);
+                          var date = new Date(t*1000);
+                          var year = date.getFullYear();
+                          var month = "0" + (date.getMonth()+1);
+                          var day = "0" + date.getDate();
+                          var hour = "0" + date.getHours();
+                          var minute = "0" + date.getMinutes();
+                          var second = "0" + date.getSeconds();
+                          return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
+                        }    
                     }
                 }
                 request(options, callback2);
@@ -330,58 +319,60 @@ for(let i = 0; i < 200; i ++){
 
 
 // 정현 Api =============================
-var getaxi = async() => {
+var getdt2 = async() => {
     try{
     return await axios.get("http://localhost:3001/getblockcount")
 }   catch(err) {
     console.error(err)
 }
 }
+function getdt() {
+    return new Promise(function(resolve) {        
+            let blockdata = getdt2()
+            resolve(blockdata)       
+    })
+}
 
-// var getcount = async() => {
-//     let count = await getaxi()
-//     console.log(count.data);
-// }
+getdt().then(function(dt){
+ 
+    for(let i = dt.data - 576; i < dt.data; i++) {  
 
-// getcount();
-// for(let i = 0; i < 100000; i++) {  
-
-//     router.get(`/getblock${i}`, (req, res) => {  
-//             var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
-//             var options = {
-//                 url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
-//                 method:"POST",
-//                 headers: headers,
-//                 body: dataString
-//             };
-//             callback = async(error, response, body) => {
-//                 if(!error && response.statusCode == 200){
-//                     const data = JSON.parse(body);
-//                     const datas = JSON.stringify(data.result)
-                    
-//                     // console.log(datas)
-    
-//                     var dataString = `{"jsonrpc":"1.0","method":"getblock", "params":[${datas}]}`
-//                     var options2 = {
-//                         url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
-//                         method:"POST",
-//                         headers: headers,
-//                         body: dataString
-//                     };
-//                     callback2 = async(error, response, body) => {
-//                         if(!error && response.statusCode == 200){
-//                             const data = JSON.parse(body);  
-//                             const datas = JSON.stringify(data.result.tx.length)                     
-//                             res.send(datas)                            
-//                         }
-//                     }
-//                     request(options2, callback2);
-//                 }  
-//             };
-//             request(options, callback);
-//         })
-//     };
-    
+        router.get(`/getblock${i}`, (req, res) => {  
+                var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
+                var options = {
+                    url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+                    method:"POST",
+                    headers: headers,
+                    body: dataString
+                };
+                callback = async(error, response, body) => {
+                    if(!error && response.statusCode == 200){
+                        const data = JSON.parse(body);
+                        const datas = JSON.stringify(data.result)
+                        
+                        // console.log(datas)
+        
+                        var dataString = `{"jsonrpc":"1.0","method":"getblock", "params":[${datas}]}`
+                        var options2 = {
+                            url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+                            method:"POST",
+                            headers: headers,
+                            body: dataString
+                        };
+                        callback2 = async(error, response, body) => {
+                            if(!error && response.statusCode == 200){
+                                const data = JSON.parse(body);  
+                                const datas = JSON.stringify(data.result.tx.length)                     
+                                res.send(datas)                            
+                            }
+                        }
+                        request(options2, callback2);
+                    }  
+                };
+                request(options, callback);
+            })
+    }
+})   
 router.get("/getTxId", (req, res) => {
     var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getbestblockhash", "params":[]}`;
     var options1 = {

@@ -25,7 +25,7 @@ export default function Avgblocktime1hour() {
     <React.Fragment>
         <Align>
       <p>
-        <h1>2.5 min</h1>
+        <h1>1.25 min</h1>
       </p>
       <p>
       <a>
