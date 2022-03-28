@@ -319,6 +319,7 @@ for(let i = 0; i < 200; i ++){
 
 
 // 정현 Api =============================
+
 var getdt2 = async() => {
     try{
     return await axios.get("http://localhost:3001/getblockcount")
@@ -333,8 +334,8 @@ function getdt() {
     })
 }
 getdt().then(function(dt){
-    // console.log(dt.data)
-    for(let i = 0; i < dt.data; i++) {  
+    console.log(dt.data)
+    for(let i = 0; i <= dt.data; i++) {  
 
         router.get(`/getblock${i}`, (req, res) => {  
                 var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`

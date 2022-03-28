@@ -27,7 +27,7 @@ export default function Blockpertxs() {
     const response = await axios.get("http://localhost:3001/getblockcount")
     let count = response.data
     
-    for(let i = count - 576; i < count; i++) {
+    for(let i = count - 576; i <= count; i++) {
       axios.all([await axios.get(`http://localhost:3001/getblock${i}`)])
       .then(axios.spread((res1) => {
       const txs1 = res1.data
