@@ -373,8 +373,12 @@ getdt().then(function(dt){
             })
     }
 })   
-router.get("/getTxId", (req, res) => {
-    var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getbestblockhash", "params":[]}`;
+
+//--------------------------------------------tx 시작 ---------------------------------------------------------------
+
+for(let i = 0; i < 8000; i++) {
+router.get(`/getTxId${i}`, (req, res) => {
+    var dataString = `{"jsonrpc":"1.0", "id":"${ID_STRING}", "method":"getblockhash", "params":[${i}]}`;
     var options1 = {
         url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
         method: "POST",
@@ -386,7 +390,7 @@ router.get("/getTxId", (req, res) => {
         if(!error && response.statusCode == 200){
             const data = JSON.parse(body);
             const datas = JSON.stringify(data.result)
-            console.log("bestblock: ", datas);
+            // console.log("bestblock: ", datas);
 
             var dataString = `{"jsonrpc":"1.0","method":"getblock", "params":[${datas}]}`
             var options2 = {
@@ -399,7 +403,7 @@ router.get("/getTxId", (req, res) => {
                 if(!error && response.statusCode == 200){
                     const data = JSON.parse(body);
                     const txid = JSON.stringify(data.result.tx[0])
-                    console.log("getblock :", txid);
+                    // console.log("getblock :", txid);
 
                     var dataString = `{"jsonrpc":"1.0","method":"getrawtransaction", "params":[${txid}]}`
                     var options3 = {
@@ -412,7 +416,7 @@ router.get("/getTxId", (req, res) => {
                         if(!error && response.statusCode == 200){
                             const data = JSON.parse(body);
                             const hex = JSON.stringify(data.result)
-                            console.log("getrawtransaction :", hex);
+                            // console.log("getrawtransaction :", hex);
 
                             var dataString = `{"jsonrpc":"1.0","method":"decoderawtransaction", "params":[${hex}]}`
                             var options4 = {
@@ -425,7 +429,7 @@ router.get("/getTxId", (req, res) => {
                                 if(!error && response.statusCode == 200){
                                     const data = JSON.parse(body);
                                     const txid = JSON.stringify(data.result)
-                                    console.log("decoderawtransaction :", txid);
+                                    // console.log("decoderawtransaction :", txid);
                                     
                                     res.status(200).json({success: true, data: data});
                                     var dataString = `{"jsonrpc":"1.0","method":"gettransaction", "params":[${txid}]}`
@@ -455,6 +459,46 @@ router.get("/getTxId", (req, res) => {
     }
     request(options1, callback1);
 });
+}
+
+   for(let i = 0; i < 8000; i++) {  
+
+        router.get(`/gettime${i}`, (req, res) => {  
+                var dataString = `{"jsonrpc":"1.0","method":"getblockhash", "params":[${i}]}`
+                var options = {
+                    url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+                    method:"POST",
+                    headers: headers,
+                    body: dataString
+                };
+                callback = async(error, response, body) => {
+                    if(!error && response.statusCode == 200){
+                        const data = JSON.parse(body);
+                        const datas = JSON.stringify(data.result)
+                        
+                        // console.log(datas)
+        
+                        var dataString = `{"jsonrpc":"1.0","method":"getblock", "params":[${datas}]}`
+                        var options2 = {
+                            url: `http://${USER}:${PASS}@127.0.0.1:${PORT}`,
+                            method:"POST",
+                            headers: headers,
+                            body: dataString
+                        };
+                        callback2 = async(error, response, body) => {
+                            if(!error && response.statusCode == 200){
+                                const data = JSON.parse(body);  
+                                const datas = JSON.stringify(data.result.time)                     
+                                res.send(datas)                            
+                            }
+                        }
+                        request(options2, callback2);
+                    }  
+                };
+                request(options, callback);
+            })
+    }
+
 
 router.post("/decoderawtransaction", (req, res)=>{
     var hex = req.body.hex;

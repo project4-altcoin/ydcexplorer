@@ -200,17 +200,17 @@ function DashboardContent() {
                 <Title>Network Performance</Title>           
                 <Grid item xs={3} md={3} lg={3}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column'}}>
-                  <Consensusnode />
+                <Avgblocktime1hour />                 
                 </Paper>
               </Grid>
                 <Grid item xs={3} md={3} lg={3}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Avgblocktime1hour />
+                <Avgblocktime24hour />
                 </Paper>
               </Grid>
                 <Grid item xs={3} md={3} lg={3}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Avgblocktime24hour />
+                <Consensusnode />
                 </Paper>
               </Grid>
                 <Grid item xs={3} md={3} lg={3}>
