@@ -31,7 +31,6 @@ var callApi1 = async() => {
     let count2 = count - i
     array.push(count2)
   }
-  console.log(array)
   setBlockCount(array)
   }
 
@@ -50,7 +49,6 @@ var callApi2 = async() => {
     const response = await axios.get(`http://localhost:3001/recentblockhash${i}`)
     array.push(response.data)
   }
-  console.log(array)
   setBlockHash(array)
   }
 
@@ -69,7 +67,6 @@ var callApi3 = async() => {
     const response = await axios.get(`http://localhost:3001/recentproposer${i}`)
     array.push(response.data)
   }
-  console.log(array)
   setProposer(array)
   }
 
@@ -88,7 +85,6 @@ var callApi4 = async() => {
     const response = await axios.get(`http://localhost:3001/recentreward${i}`)
     array.push(response.data)
   }
-  console.log(array)
   setReward(array)
   }
 

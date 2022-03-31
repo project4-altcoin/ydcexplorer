@@ -48,7 +48,7 @@ export default function Chart() {
       }
 
 
-      console.log("i : ", i)
+
       i++
 
       // blockdata in array
