@@ -291,23 +291,6 @@ for(let i = 0; i < 200; i ++){
                         const data = JSON.parse(body);
                         // send data to front
                         res.send(data);
-    
-                        // extracted data
-                        const blockHeight = JSON.stringify(data.result.height) // time 
-                        const blockTime = JSON.stringify(data.result.time) // time 
-                        const txArray = JSON.stringify(data.result.tx) // transaction array 
-                        const txNum = JSON.stringify(data.result.tx.length) // transaction number 
-                        // unix timestamp -> real time
-                        function Unix_timestamp(t){
-                          var date = new Date(t*1000);
-                          var year = date.getFullYear();
-                          var month = "0" + (date.getMonth()+1);
-                          var day = "0" + date.getDate();
-                          var hour = "0" + date.getHours();
-                          var minute = "0" + date.getMinutes();
-                          var second = "0" + date.getSeconds();
-                          return year + "-" + month.substr(-2) + "-" + day.substr(-2) + " " + hour.substr(-2) + ":" + minute.substr(-2) + ":" + second.substr(-2);
-                        }    
                     }
                 }
                 request(options, callback2);
