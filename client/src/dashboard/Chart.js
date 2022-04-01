@@ -86,24 +86,25 @@ export default function Chart() {
   let txNumSum7 = 0;
 
   for(let i = 1; i < 110; i ++){
-    if(TmArr[i] <= TmArr[8]){
+    if(TmArr[i] <= TmArr[5]){
       txNumSum0 += txLeng[i]
-    } else if(TmArr[8] < TmArr[i] && TmArr[i] <= TmArr[18]) {
+    } else if(TmArr[5] < TmArr[i] && TmArr[i] <= TmArr[8]) {
       txNumSum1 += txLeng[i]
-    } else if(TmArr[18] < TmArr[i] && TmArr[i] <= TmArr[28]) {
+    } else if(TmArr[8] < TmArr[i] && TmArr[i] <= TmArr[13]) {
       txNumSum2 += txLeng[i]
-    } else if(TmArr[28] < TmArr[i] && TmArr[i] <= TmArr[46]) {
+    } else if(TmArr[17] < TmArr[i] && TmArr[i] <= TmArr[25]) {
       txNumSum3 += txLeng[i]
-    } else if(TmArr[46] < TmArr[i] && TmArr[i] <= TmArr[62]) {
+    } else if(TmArr[25] < TmArr[i] && TmArr[i] <= TmArr[31]) {
       txNumSum4 += txLeng[i]
-    } else if(TmArr[62] < TmArr[i] && TmArr[i] <= TmArr[78]) {
+    } else if(TmArr[45] < TmArr[i] && TmArr[i] <= TmArr[60]) {
       txNumSum5 += txLeng[i]
-    } else if(TmArr[78] < TmArr[i] && TmArr[i] <= TmArr[90]) {
+    } else if(TmArr[60] < TmArr[i] && TmArr[i] <= TmArr[83]) {
       txNumSum6 += txLeng[i]
     } else if(TmArr[90] < TmArr[i] && TmArr[i] <= TmArr[100]) {
       txNumSum7 += txLeng[i]
     }
   }
+
 
   // console.log("==============txNum0===========", txNumSum0)
   // console.log("==============txNum1===========", txNumSum1)
@@ -115,14 +116,14 @@ export default function Chart() {
   // console.log("==============txNum7===========", txNumSum7)
 
   const data = [
-    createData(realTmArr[0], txNumSum0),
-    createData(realTmArr[8], txNumSum1),
-    createData(realTmArr[18], txNumSum2),
-    createData(realTmArr[28], txNumSum3),
-    createData(realTmArr[46], txNumSum4),
-    createData(realTmArr[62], txNumSum5),
-    createData(realTmArr[78], txNumSum6),
-    createData(realTmArr[90], txNumSum7)
+    createData(realTmArr[1], txNumSum0),
+    createData(realTmArr[5], txNumSum1),
+    createData(realTmArr[8], txNumSum2),
+    createData(realTmArr[13], txNumSum3),
+    createData(realTmArr[17], txNumSum4),
+    createData(realTmArr[25], txNumSum5),
+    createData(realTmArr[31], txNumSum6),
+    createData(realTmArr[45], txNumSum7)
   ];
 
 
