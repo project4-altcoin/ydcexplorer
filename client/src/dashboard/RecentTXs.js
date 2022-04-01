@@ -69,6 +69,7 @@ var getfromaddress = async() => {
 }
 setFromAddress(array)
 }
+console.log(fromAddress)
 
 var gettime = async() => {
   const response = await axios.get("http://localhost:3001/getblockcount");
